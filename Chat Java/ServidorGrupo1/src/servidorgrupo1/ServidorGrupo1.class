@@ -1,0 +1,45 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package servidorgrupo1;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class ServidorGrupo1 {
+   public ServidorGrupo1() {
+   }
+
+   public static void main(String[] var0) throws Exception {
+      System.out.println("Iniciando o Servidor");
+      ServerSocket var1 = new ServerSocket(2525);
+      System.out.println("Aguardando Conexão");
+      Socket var2 = var1.accept();
+      System.out.println("Conexão Estabelecida");
+      InputStream var3 = var2.getInputStream();
+      OutputStream var4 = var2.getOutputStream();
+      BufferedReader var5 = new BufferedReader(new InputStreamReader(var3));
+      PrintStream var6 = new PrintStream(var4);
+
+      while(true) {
+         String var7 = var5.readLine();
+         PrintStream var10000 = System.out;
+         String var10001 = var2.getInetAddress().getHostName();
+         var10000.println("Mensagem recebida do cliente[ " + var10001 + "]: " + var7);
+         if ("FIM".equals(var7)) {
+            System.out.println("Encerrando conexão");
+            var5.close();
+            var6.close();
+            var2.close();
+            System.out.println("Encerrando servidor");
+            var1.close();
+            return;
+         }
+
+         var6.println(var7);
+      }
+   }
+}
